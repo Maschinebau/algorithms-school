@@ -1,1 +1,1 @@
-# Algorithms_school-
+# Algorithms_school
