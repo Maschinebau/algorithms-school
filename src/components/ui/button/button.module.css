@@ -10,6 +10,13 @@
   transition: var(--common-transition);
   max-height: 60px;
   min-width: 130px;
+  cursor: pointer;
+}
+
+.button p {
+  padding: 0;
+  margin: 0;
+  text-align: center;
 }
 
 .button:hover:enabled {
