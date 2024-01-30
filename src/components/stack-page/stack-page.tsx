@@ -7,27 +7,22 @@ import { Circle } from "../ui/circle/circle"
 import { delay } from "../../utils/functions"
 import { SHORT_DELAY_IN_MS } from "../../constants/delays"
 import { ElementStates } from "../../types/element-states"
+import { useInput } from "../../utils/hooks"
 
 export const StackPage = () => {
-  const [inputValue, setInputValue] = useState("")
+  const { values, handleChange, reset } = useInput({inputValue: ''})
   const [formChanged, setFormIsChanged] = useState(false)
   const [printedVals, setPrintedVals] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [dynamicIndex, setDynamicIndex] = useState<number | null>(null)
 
-  const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
-    // преобразуем в цифры содержимое инпута
-    const value = e.currentTarget.value
-    setInputValue(value)
-  }
-
   // проверяем, является ли компонент хвостом
-  const getHead = (idx: number) => {
+  const getTall = (idx: number) => {
     return idx === printedVals.length - 1 ? "top" : null
   }
 
   // получаем состояние компонента, чтобы изменить цвет при удалении
-  const getState = (idx: number) => {
+  const circleState = (idx: number) => {
     return idx === dynamicIndex ? ElementStates.Changing : ElementStates.Default
   }
 
@@ -44,7 +39,7 @@ export const StackPage = () => {
   const clearStack = () => {
     setPrintedVals([])
     setFormIsChanged(false)
-    setInputValue("")
+    reset()
   }
 
   // выводим содержимое инпута
@@ -60,13 +55,14 @@ export const StackPage = () => {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    print(inputValue)
+    print(values.inputValue)
+    reset()
   }
 
   useEffect(() => {
     // проверяем, что компонентов не больше 9 и инпут не пустой
-    setFormIsChanged(printedVals.length <= 9 && inputValue !== "")
-  }, [printedVals, inputValue])
+    setFormIsChanged(printedVals.length <= 9 && values.inputValue !== "")
+  }, [printedVals, values.inputValue])
 
   return (
     <SolutionLayout title="Стек">
@@ -76,17 +72,18 @@ export const StackPage = () => {
             extraClass={styles.input}
             isLimitText={true}
             maxLength={4}
-            onChange={handleInputChange}
-            value={inputValue}
+            onChange={handleChange}
+            value={values.inputValue}
+            name="inputValue"
           />
           <Button text="Добавить" disabled={!formChanged} type="submit" isLoader={isLoading} />
           <Button text="Удалить" disabled={printedVals.length <= 0} type="button" onClick={deleteTop} />
-          <Button text="Очистить" disabled={inputValue === ""} type="reset" onClick={clearStack} />
+          <Button text="Очистить" disabled={printedVals.length <= 0}  type="reset" onClick={clearStack} />
         </form>
         <ul>
           {printedVals.length > 0 &&
             printedVals.map((item, idx) => (
-              <Circle letter={item} key={idx} index={idx} head={getHead(idx)} state={getState(idx)} />
+              <Circle letter={item} key={idx} index={idx} head={getTall(idx)} state={circleState(idx)} />
             ))}
         </ul>
       </div>

@@ -24,9 +24,3 @@
 .btn3 {
   grid-area: btn3;
 }
-
-.circlex_box {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
