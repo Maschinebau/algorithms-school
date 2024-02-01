@@ -1,6 +1,6 @@
 export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms))
 
-export const swap = (arr: any[], a: number, b: number) => {
+export const swap = (arr: string[] | number[], a: number, b: number) => {
   const temp = arr[a]
   arr[a] = arr[b]
   arr[b] = temp
@@ -18,8 +18,11 @@ export const fib = (n: number) => {
   return arr
 }
 
-export const randomNumsArr = (size: number) => {
+export const getRandomNumsArr = (size: number) => {
   return Array(size)
     .fill(0)
     .map(() => Math.floor(Math.random() * 101))
 }
+
+// получаем число от 3 до 17
+export const getSize = () => Math.floor(Math.random() * 15) + 3

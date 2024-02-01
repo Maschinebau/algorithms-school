@@ -12,7 +12,7 @@ export const StringComponent = () => {
   const [formChanged, setFormIsChanged] = useState(false)
   const [splitedInputVal, setSplitedInputVal] = useState<string[]>([])
   const [reversedInputVal, setReversedInputVal] = useState<string[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isPending, setIsPending] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -32,7 +32,7 @@ export const StringComponent = () => {
       setReversedInputVal(arr)
     }
 
-    setIsLoading(true)
+    setIsPending(true)
 
     let start = 0
     let end = arr.length - 1
@@ -45,7 +45,7 @@ export const StringComponent = () => {
         setReversedInputVal([...arr])
       } else {
         clearInterval(reverseInterval)
-        setIsLoading(false)
+        setIsPending(false)
       }
     }, interval)
   }
@@ -55,7 +55,7 @@ export const StringComponent = () => {
       <div className={styles.wrapper}>
         <form className={styles.controls} onSubmit={onSubmit}>
           <Input extraClass={styles.input} isLimitText={true} maxLength={11} onChange={handleInputChange} />
-          <Button text="Развернуть" disabled={!formChanged} type="submit" isLoader={isLoading} />
+          <Button text="Развернуть" disabled={!formChanged} type="submit" isLoader={isPending} />
         </form>
         <ul>
           {reversedInputVal.length > 0 &&

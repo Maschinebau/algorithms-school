@@ -17,7 +17,8 @@ export const QueuePage = () => {
   const [length, setLength] = useState(queue.getLength())
   const { values, handleChange, reset } = useInput({ inputValue: "" })
   const [formChanged, setFormIsChanged] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isPending, setIsPending] = useState(false)
+  
   // индекс будет добавляться элементам для анимации удаления/добавления
   const [dynamicIndex, setDynamicIndex] = useState<number | null>(null)
 
@@ -42,20 +43,20 @@ export const QueuePage = () => {
       queue.dequeue()
       updQueue()
       setDynamicIndex(null)
-      setIsLoading(false)
+      setIsPending(false)
     }
   }
 
   // добавление
   const enqueue = async (val: string) => {
-    setIsLoading(true)
+    setIsPending(true)
     setDynamicIndex(tail)
     queue.enqueue(val)
     await delay(SHORT_DELAY_IN_MS)
     updQueue()
     setDynamicIndex(null)
     setFormIsChanged(false)
-    setIsLoading(false)
+    setIsPending(false)
   }
 
   //  очистка стэка
@@ -87,7 +88,7 @@ export const QueuePage = () => {
             value={values.inputValue}
             name="inputValue"
           />
-          <Button text="Добавить" disabled={!formChanged} type="submit" isLoader={isLoading} />
+          <Button text="Добавить" disabled={!formChanged} type="submit" isLoader={isPending} />
           <Button text="Удалить" disabled={length === 0} type="button" onClick={dequeue} />
           <Button text="Очистить" disabled={length === 0} type="reset" onClick={clearStack} />
         </form>

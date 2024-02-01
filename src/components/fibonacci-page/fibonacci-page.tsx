@@ -12,20 +12,20 @@ export const FibonacciPage = () => {
   const { values, handleChange } = useInput({ inputValue: "" })
   const [formChanged, setFormIsChanged] = useState(false)
   const [printedNums, setPrintedNums] = useState<number[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isPending, setIsPending] = useState(false)
 
   const parsedValue = values.inputValue !== undefined ? parseInt(values.inputValue, 10) : undefined
 
   const print = async (val: number) => {
     // включаем спиннер на кнопке
-    setIsLoading(true)
+    setIsPending(true)
     const fibNumbers = fib(val)
     // сохраняем рассчеты и выводим с задержкой
     for (let i = 0; i < fibNumbers.length; i++) {
       await delay(SHORT_DELAY_IN_MS)
       setPrintedNums((prevNums) => [...prevNums, fibNumbers[i]])
     }
-    setIsLoading(false)
+    setIsPending(false)
   }
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -54,7 +54,7 @@ export const FibonacciPage = () => {
             value={values.inputValue}
             name="inputValue"
           />
-          <Button text="Рассчитать" disabled={!formChanged} type="submit" isLoader={isLoading} />
+          <Button text="Рассчитать" disabled={!formChanged} type="submit" isLoader={isPending} />
         </form>
         <ul>
           {printedNums.length > 0 &&

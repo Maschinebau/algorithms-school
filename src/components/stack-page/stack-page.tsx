@@ -13,7 +13,7 @@ export const StackPage = () => {
   const { values, handleChange, reset } = useInput({inputValue: ''})
   const [formChanged, setFormIsChanged] = useState(false)
   const [printedVals, setPrintedVals] = useState<string[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isPending, setIsPending] = useState(false)
   const [dynamicIndex, setDynamicIndex] = useState<number | null>(null)
 
   // проверяем, является ли компонент хвостом
@@ -27,13 +27,13 @@ export const StackPage = () => {
   }
 
   const deleteTop = async () => {
-    setIsLoading(true)
+    setIsPending(true)
     // тут устанавливаем индекс компонента, который будет выделяться активным
     setDynamicIndex(printedVals.length - 1)
     await delay(SHORT_DELAY_IN_MS)
     setDynamicIndex(null)
     setPrintedVals((prevVals) => prevVals.slice(0, -1))
-    setIsLoading(false)
+    setIsPending(false)
   }
 
   const clearStack = () => {
@@ -44,12 +44,12 @@ export const StackPage = () => {
 
   // выводим содержимое инпута
   const print = async (val: string) => {
-    setIsLoading(true)
+    setIsPending(true)
     setPrintedVals((prevVals) => [...prevVals, val])
     // тут устанавливаем индекс элемента, который будет выделяться активным
     setDynamicIndex(printedVals.length)
     await delay(SHORT_DELAY_IN_MS)
-    setIsLoading(false)
+    setIsPending(false)
     setDynamicIndex(null)
   }
 
@@ -76,7 +76,7 @@ export const StackPage = () => {
             value={values.inputValue}
             name="inputValue"
           />
-          <Button text="Добавить" disabled={!formChanged} type="submit" isLoader={isLoading} />
+          <Button text="Добавить" disabled={!formChanged} type="submit" isLoader={isPending} />
           <Button text="Удалить" disabled={printedVals.length <= 0} type="button" onClick={deleteTop} />
           <Button text="Очистить" disabled={printedVals.length <= 0}  type="reset" onClick={clearStack} />
         </form>
