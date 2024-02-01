@@ -28,10 +28,10 @@ export const SortingPage = () => {
 
   // возвращаем стейт по индексам
   const circleState = (idx: number) => {
-    if (modIndexes.includes(idx)) return ElementStates.Modified;
-    if (dynamicIndexes.includes(idx)) return ElementStates.Changing;
-    return ElementStates.Default;
-  };
+    if (modIndexes.includes(idx)) return ElementStates.Modified
+    if (dynamicIndexes.includes(idx)) return ElementStates.Changing
+    return ElementStates.Default
+  }
 
   // сортировка пузырьком
   const bubbleSort = async (arr: number[], direction: Direction) => {
@@ -51,8 +51,8 @@ export const SortingPage = () => {
           // проверка, чтобы избежать лишних обновлений стейта
           if (!dynamicIndexes.includes(i)) {
             setDynamicIndexes([i, i + 1])
-            await delay(SHORT_DELAY_IN_MS)
           }
+          await delay(SHORT_DELAY_IN_MS)
 
           swap(arr, i, i + 1)
           swapped = true
@@ -91,10 +91,11 @@ export const SortingPage = () => {
     for (let i = index + 1; i < arr.length; i++) {
       if (direction === Direction.Ascending ? arr[i] < arr[minIndex] : arr[i] > arr[minIndex]) {
         minIndex = i
+        // проверка, чтобы избежать лишних обновлений стейта
         if (!dynamicIndexes.includes(i)) {
           setDynamicIndexes([i, i + 1])
-          await delay(SHORT_DELAY_IN_MS)
         }
+        await delay(SHORT_DELAY_IN_MS)
       }
     }
 
