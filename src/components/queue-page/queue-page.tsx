@@ -8,7 +8,8 @@ import { Circle } from "../ui/circle/circle"
 import { ElementStates } from "../../types/element-states"
 import { delay } from "../../utils/functions"
 import { SHORT_DELAY_IN_MS } from "../../constants/delays"
-import { Queue } from "./queie"
+import { Queue } from "./Queie"
+import { v4 as uuid } from "uuid"
 
 export const QueuePage = () => {
   const [queue] = useState(new Queue<string>(7))
@@ -18,7 +19,7 @@ export const QueuePage = () => {
   const { values, handleChange, reset } = useInput({ inputValue: "" })
   const [formChanged, setFormIsChanged] = useState(false)
   const [isPending, setIsPending] = useState(false)
-  
+
   // индекс будет добавляться элементам для анимации удаления/добавления
   const [dynamicIndex, setDynamicIndex] = useState<number | null>(null)
 
@@ -94,16 +95,18 @@ export const QueuePage = () => {
         </form>
         <ul>
           {queue.getQueue().length > 0 &&
-            queue.getQueue().map((item, idx) => (
-              <Circle
-                letter={item ?? ""}
-                key={idx}
-                index={idx}
-                head={idx === head ? "head" : null}
-                tail={idx === tail - 1 ? "tail" : null}
-                state={circleState(idx)}
-              />
-            ))}
+            queue
+              .getQueue()
+              .map((item, idx) => (
+                <Circle
+                  letter={item ?? ""}
+                  key={uuid()}
+                  index={idx}
+                  head={idx === head ? "head" : null}
+                  tail={idx === tail - 1 ? "tail" : null}
+                  state={circleState(idx)}
+                />
+              ))}
         </ul>
       </div>
     </SolutionLayout>

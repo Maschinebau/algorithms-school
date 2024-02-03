@@ -8,6 +8,7 @@ import { delay } from "../../utils/functions"
 import { SHORT_DELAY_IN_MS } from "../../constants/delays"
 import { ElementStates } from "../../types/element-states"
 import { useInput } from "../../utils/hooks"
+import { v4 as uuid } from "uuid"
 
 export const StackPage = () => {
   const { values, handleChange, reset } = useInput({inputValue: ''})
@@ -83,7 +84,7 @@ export const StackPage = () => {
         <ul>
           {printedVals.length > 0 &&
             printedVals.map((item, idx) => (
-              <Circle letter={item} key={idx} index={idx} head={getTall(idx)} state={circleState(idx)} />
+              <Circle letter={item} key={uuid()} index={idx} head={getTall(idx)} state={circleState(idx)} />
             ))}
         </ul>
       </div>

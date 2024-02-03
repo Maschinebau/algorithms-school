@@ -7,6 +7,7 @@ import { Circle } from "../ui/circle/circle"
 import { delay, fib } from "../../utils/functions"
 import { SHORT_DELAY_IN_MS } from "../../constants/delays"
 import { useInput } from "../../utils/hooks"
+import { v4 as uuid } from "uuid"
 
 export const FibonacciPage = () => {
   const { values, handleChange } = useInput({ inputValue: "" })
@@ -58,7 +59,7 @@ export const FibonacciPage = () => {
         </form>
         <ul>
           {printedNums.length > 0 &&
-            printedNums.map((item, idx) => <Circle letter={item} key={idx} index={idx} />)}
+            printedNums.map((item, idx) => <Circle letter={item} key={uuid()} index={idx} />)}
         </ul>
       </div>
     </SolutionLayout>

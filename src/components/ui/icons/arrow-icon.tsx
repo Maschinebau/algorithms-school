@@ -6,6 +6,7 @@ interface Props {
 
 export const ArrowIcon: React.FC<Props> = ({ fill = "#0032FF" }) => {
   return (
+    <div style={{listStyle: "none"}}>
     <svg
       width="24"
       height="24"
@@ -20,5 +21,6 @@ export const ArrowIcon: React.FC<Props> = ({ fill = "#0032FF" }) => {
         fill={fill}
       />
     </svg>
+    </div>
   );
 };

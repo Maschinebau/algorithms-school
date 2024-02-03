@@ -8,6 +8,7 @@ import { delay, swap } from "../../utils/functions"
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays"
 import { useInput } from "../../utils/hooks"
 import { ElementStates } from "../../types/element-states"
+import { v4 as uuid } from "uuid"
 
 export const StringComponent = () => {
   const { values, handleChange } = useInput({ inputValue: "" })
@@ -34,7 +35,7 @@ export const StringComponent = () => {
     let end = arr.length - 1
 
     const reverseInterval = setInterval(async () => {
-      // проверка на звершение лбращения
+      // проверка на звершение обращения
       if (start >= end) {
         clearInterval(reverseInterval)
         setModIndexes(Array.from(arr.keys()))
@@ -66,7 +67,8 @@ export const StringComponent = () => {
   // эффекты при изменении инпута
   useEffect(() => {
     setFormIsChanged(values.inputValue !== "")
-    const newSplittedInputVal = values.inputValue.split("")
+
+    const newSplittedInputVal = values.inputValue.split("") // тут разбиваем строку и сразу рендерим ее
     setSplittedInputVal(newSplittedInputVal)
     setRevInputVal(newSplittedInputVal)
   }, [values.inputValue])
@@ -88,7 +90,7 @@ export const StringComponent = () => {
         </form>
         <ul>
           {revInputVal.length > 0 &&
-            revInputVal.map((item, idx) => <Circle letter={item} key={idx} state={circleState(idx)} />)}
+            revInputVal.map((item, idx) => <Circle letter={item} key={uuid()} state={circleState(idx)} />)}
         </ul>
       </div>
     </SolutionLayout>

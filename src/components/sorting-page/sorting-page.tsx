@@ -8,6 +8,7 @@ import { Column } from "../ui/column/column"
 import { delay, getRandomNumsArr, getSize, swap } from "../../utils/functions"
 import { ElementStates } from "../../types/element-states"
 import { SHORT_DELAY_IN_MS } from "../../constants/delays"
+import { v4 as uuid } from "uuid"
 
 export const SortingPage = () => {
   const [selectedType, setSelectedType] = useState("bubble")
@@ -166,7 +167,7 @@ export const SortingPage = () => {
         </form>
         <ul>
           {randomArr.length > 0 &&
-            randomArr.map((item, idx) => <Column index={item} key={idx} state={circleState(idx)} />)}
+            randomArr.map((item, idx) => <Column index={item} key={uuid()} state={circleState(idx)} />)}
         </ul>
       </div>
     </SolutionLayout>
