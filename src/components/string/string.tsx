@@ -6,9 +6,8 @@ import { Button } from "../ui/button/button"
 import { Circle } from "../ui/circle/circle"
 import { delay, swap } from "../../utils/functions"
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays"
-import { useInput } from "../../utils/hooks"
+import { useInput, useMounted } from "../../utils/hooks"
 import { ElementStates } from "../../types/element-states"
-import { v4 as uuid } from "uuid"
 
 export const StringComponent = () => {
   const { values, handleChange } = useInput({ inputValue: "" })
@@ -16,10 +15,11 @@ export const StringComponent = () => {
   const [isPending, setIsPending] = useState(false)
   const [splittedInputVal, setSplittedInputVal] = useState<string[]>([]) // разбитая на символы строка из инпута
   const [revInputVal, setRevInputVal] = useState<string[]>([]) // конечный реверснутый массив
+  const isMounted = useMounted()
 
   // индекс будет добавляться элементам для анимации удаления/добавления
   const [dynamicIndexes, setDynamicIndexes] = useState<number[]>([])
-  const [modIndexes, setModIndexes] = useState<number[]>([]) 
+  const [modIndexes, setModIndexes] = useState<number[]>([])
 
   // вычисляем стейт компонента
   const circleState = (idx: number) => {
@@ -35,24 +35,29 @@ export const StringComponent = () => {
     let end = arr.length - 1
 
     const reverseInterval = setInterval(async () => {
-      // проверка на звершение обращения
+      // проверка на завершение обращения
       if (start >= end) {
         clearInterval(reverseInterval)
         setModIndexes(Array.from(arr.keys()))
         setIsPending(false)
         return
       }
-      setDynamicIndexes(() => [start, end]) // подсвечиваем первые элементы до начала свайпа
-      await delay(interval)
-      swap(arr, start, end)
 
-      start++
-      end--
+      if (isMounted.current) {
+        setDynamicIndexes(() => [start, end])
+        await delay(interval)
+        swap(arr, start, end)
 
-      setDynamicIndexes(() => [start, end])
-      setRevInputVal([...arr])
-      setModIndexes((state) => [start - 1, end + 1, ...state])
-      await delay(interval)
+        start++
+        end--
+
+        if (isMounted.current) {
+          setDynamicIndexes(() => [start, end])
+          setRevInputVal([...arr])
+          setModIndexes((state) => [start - 1, end + 1, ...state])
+          await delay(interval)
+        }
+      }
     }, interval)
   }
 
@@ -66,12 +71,13 @@ export const StringComponent = () => {
 
   // эффекты при изменении инпута
   useEffect(() => {
+    if(!isMounted) return
     setFormIsChanged(values.inputValue !== "")
 
     const newSplittedInputVal = values.inputValue.split("") // тут разбиваем строку и сразу рендерим ее
     setSplittedInputVal(newSplittedInputVal)
     setRevInputVal(newSplittedInputVal)
-  }, [values.inputValue])
+  }, [values.inputValue, isMounted])
 
   return (
     <SolutionLayout title="Строка">
@@ -90,7 +96,7 @@ export const StringComponent = () => {
         </form>
         <ul>
           {revInputVal.length > 0 &&
-            revInputVal.map((item, idx) => <Circle letter={item} key={uuid()} state={circleState(idx)} />)}
+            revInputVal.map((item, idx) => <Circle letter={item} key={idx} state={circleState(idx)} />)}
         </ul>
       </div>
     </SolutionLayout>

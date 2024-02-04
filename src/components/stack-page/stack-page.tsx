@@ -7,8 +7,7 @@ import { Circle } from "../ui/circle/circle"
 import { delay } from "../../utils/functions"
 import { SHORT_DELAY_IN_MS } from "../../constants/delays"
 import { ElementStates } from "../../types/element-states"
-import { useInput } from "../../utils/hooks"
-import { v4 as uuid } from "uuid"
+import { useInput, useMounted } from "../../utils/hooks"
 
 export const StackPage = () => {
   const { values, handleChange, reset } = useInput({inputValue: ''})
@@ -16,6 +15,7 @@ export const StackPage = () => {
   const [printedVals, setPrintedVals] = useState<string[]>([])
   const [isPending, setIsPending] = useState(false)
   const [dynamicIndex, setDynamicIndex] = useState<number | null>(null)
+  const isMounted = useMounted()
 
   // проверяем, является ли компонент хвостом
   const getTall = (idx: number) => {
@@ -61,9 +61,11 @@ export const StackPage = () => {
   }
 
   useEffect(() => {
+    if(!isMounted) return
+
     // проверяем, что компонентов не больше 9 и инпут не пустой
     setFormIsChanged(printedVals.length <= 9 && values.inputValue !== "")
-  }, [printedVals, values.inputValue])
+  }, [printedVals, values.inputValue, isMounted])
 
   return (
     <SolutionLayout title="Стек">
@@ -84,7 +86,7 @@ export const StackPage = () => {
         <ul>
           {printedVals.length > 0 &&
             printedVals.map((item, idx) => (
-              <Circle letter={item} key={uuid()} index={idx} head={getTall(idx)} state={circleState(idx)} />
+              <Circle letter={item} key={idx} index={idx} head={getTall(idx)} state={circleState(idx)} />
             ))}
         </ul>
       </div>

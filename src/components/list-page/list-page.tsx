@@ -3,14 +3,13 @@ import styles from "./list-page.module.css"
 import { SolutionLayout } from "../ui/solution-layout/solution-layout"
 import { Input } from "../ui/input/input"
 import { Button } from "../ui/button/button"
-import { useInput } from "../../utils/hooks"
+import { useInput, useMounted } from "../../utils/hooks"
 import { Circle } from "../ui/circle/circle"
 import { ElementStates } from "../../types/element-states"
 import { ArrowIcon } from "../ui/icons/arrow-icon"
 import { LinkedList } from "./Linked-list"
 import { SHORT_DELAY_IN_MS } from "../../constants/delays"
 import { delay } from "../../utils/functions"
-import { v4 as uuid } from "uuid"
 
 export enum Location {
   top = "top",
@@ -19,6 +18,7 @@ export enum Location {
 
 export const ListPage = () => {
   const { values, handleChange, setValues } = useInput({ string: "", number: "" })
+  const isMounted = useMounted()
 
   // инстанс списка и списка для отрисовки записываем в стейт
   const list = useRef(new LinkedList(["2", "34", "8"]))
@@ -249,6 +249,8 @@ export const ListPage = () => {
 
   // выставляем все стостяния кнопок
   useEffect(() => {
+    if(!isMounted) return
+
     let index = Number(values.number)
     
     setBtnStates({
@@ -265,7 +267,7 @@ export const ListPage = () => {
       delIdxBtnDisabled:
         values.number === "" || index > printedArr.length - 1 || printedArr.length === 0 || index < 0
     })
-  }, [values, printedArr])
+  }, [values, printedArr, isMounted])
 
   return (
     <SolutionLayout title="Связный список">
@@ -350,7 +352,7 @@ export const ListPage = () => {
         <ul>
           {printedArr.length > 0 &&
             printedArr.map((item, idx) => (
-              <React.Fragment key={uuid()}>
+              <React.Fragment key={idx}>
                 <Circle
                   letter={item}
                   head={showHead(idx)}
