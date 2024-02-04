@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/algorithms-school/static/css/main.e1a27c6f.css",
-    "main.js": "/algorithms-school/static/js/main.4efa797a.js",
+    "main.js": "/algorithms-school/static/js/main.3de9ac64.js",
     "static/js/479.870cd50e.chunk.js": "/algorithms-school/static/js/479.870cd50e.chunk.js",
     "static/media/bg.jpg": "/algorithms-school/static/media/bg.971318c52485d1963a30.jpg",
     "static/media/arr-hover.svg": "/algorithms-school/static/media/arr-hover.a52854e0c00e33cd4d38.svg",
@@ -19,11 +19,11 @@
     "index.html": "/algorithms-school/index.html",
     "static/media/loader.svg": "/algorithms-school/static/media/loader.b935a8aeb021da7b2a90191a58ea95f4.svg",
     "main.e1a27c6f.css.map": "/algorithms-school/static/css/main.e1a27c6f.css.map",
-    "main.4efa797a.js.map": "/algorithms-school/static/js/main.4efa797a.js.map",
+    "main.3de9ac64.js.map": "/algorithms-school/static/js/main.3de9ac64.js.map",
     "479.870cd50e.chunk.js.map": "/algorithms-school/static/js/479.870cd50e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e1a27c6f.css",
-    "static/js/main.4efa797a.js"
+    "static/js/main.3de9ac64.js"
   ]
 }
