@@ -4,10 +4,10 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout"
 import { Input } from "../ui/input/input"
 import { Button } from "../ui/button/button"
 import { Circle } from "../ui/circle/circle"
-import { delay, swap } from "../../utils/functions"
-import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays"
+import { DELAY_IN_MS} from "../../constants/delays"
 import { useInput, useMounted } from "../../utils/hooks"
 import { ElementStates } from "../../types/element-states"
+import { reverseString } from "./reverseString"
 
 export const StringComponent = () => {
   const { values, handleChange } = useInput({ inputValue: "" })
@@ -28,45 +28,20 @@ export const StringComponent = () => {
     return ElementStates.Default
   }
 
-  const reverseString = async (arr: string[], interval: number) => {
-    setIsPending(true)
-
-    let start = 0
-    let end = arr.length - 1
-
-    const reverseInterval = setInterval(async () => {
-      // проверка на завершение обращения
-      if (start >= end) {
-        clearInterval(reverseInterval)
-        setModIndexes(Array.from(arr.keys()))
-        setIsPending(false)
-        return
-      }
-
-      if (isMounted.current) {
-        setDynamicIndexes(() => [start, end])
-        await delay(interval)
-        swap(arr, start, end)
-
-        start++
-        end--
-
-        if (isMounted.current) {
-          setDynamicIndexes(() => [start, end])
-          setRevInputVal([...arr])
-          setModIndexes((state) => [start - 1, end + 1, ...state])
-          await delay(interval)
-        }
-      }
-    }, interval)
-  }
-
   // действия при запуске цикла
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setModIndexes([]) // очищаем индексы
     setDynamicIndexes([])
-    reverseString(splittedInputVal, DELAY_IN_MS)
+    reverseString(
+      splittedInputVal,
+      DELAY_IN_MS,
+      setIsPending,
+      setDynamicIndexes,
+      setRevInputVal,
+      setModIndexes,
+      isMounted
+    );
   }
 
   // эффекты при изменении инпута
@@ -91,12 +66,13 @@ export const StringComponent = () => {
             value={values.inputValue}
             disabled={isPending}
             name="inputValue"
+            data-testid="inputValue"
           />
           <Button text="Развернуть" disabled={!formChanged} type="submit" isLoader={isPending} />
         </form>
         <ul>
           {revInputVal.length > 0 &&
-            revInputVal.map((item, idx) => <Circle letter={item} key={idx} state={circleState(idx)} />)}
+            revInputVal.map((item, idx) => <Circle letter={item} key={idx} state={circleState(idx)} data-testid={`circle-letter-${idx}`} />)}
         </ul>
       </div>
     </SolutionLayout>

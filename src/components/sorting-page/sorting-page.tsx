@@ -10,6 +10,7 @@ import { ElementStates } from "../../types/element-states"
 import { bubbleSort } from "./bubbleSort"
 import { selectionSort } from "./selectionSort"
 import { useMounted } from "../../utils/hooks"
+import { SHORT_DELAY_IN_MS } from "../../constants/delays"
 
 export const SortingPage = () => {
   const [selectedType, setSelectedType] = useState("bubble")
@@ -41,13 +42,13 @@ export const SortingPage = () => {
     if (selectedType === "bubble") {
       setModIndexes([]) // обнуляем индексы и выбираем тип сортировки
       e.currentTarget.value === "ascending"
-        ? bubbleSort(randomArr, Direction.Ascending, setDynamicIndexes, setModIndexes, setIsPending, isMounted)
-        : bubbleSort(randomArr, Direction.Descending, setDynamicIndexes, setModIndexes, setIsPending, isMounted)
+        ? bubbleSort(randomArr, Direction.Ascending, setDynamicIndexes, setModIndexes, setIsPending, isMounted, SHORT_DELAY_IN_MS)
+        : bubbleSort(randomArr, Direction.Descending, setDynamicIndexes, setModIndexes, setIsPending, isMounted, SHORT_DELAY_IN_MS)
     } else {
       setModIndexes([])
       e.currentTarget.value === "ascending"
-        ? selectionSort(randomArr, Direction.Ascending, setDynamicIndexes, setModIndexes, setIsPending, isMounted)
-        : selectionSort(randomArr, Direction.Descending, setDynamicIndexes, setModIndexes, setIsPending, isMounted)
+        ? selectionSort(randomArr, Direction.Ascending, setDynamicIndexes, setModIndexes, setIsPending, isMounted, SHORT_DELAY_IN_MS)
+        : selectionSort(randomArr, Direction.Descending, setDynamicIndexes, setModIndexes, setIsPending, isMounted, SHORT_DELAY_IN_MS)
     }
   }
 

@@ -1,5 +1,4 @@
 import { RefObject } from "react"
-import { SHORT_DELAY_IN_MS } from "../../constants/delays"
 import { Direction } from "../../types/direction"
 import { delay, swap } from "../../utils/functions"
 
@@ -10,21 +9,22 @@ type SetIsPending = (val: boolean) => void
 export const selectionSort = async (
   arr: number[],
   direction: Direction,
-  updateDynamicIndexes: SetDynamicIndexes,
-  updateModIndexes: SetModIndexes,
-  isPending: SetIsPending,
+  setDynamicIndexes: SetDynamicIndexes,
+  setModIndexes: SetModIndexes,
+  setIsPending: SetIsPending,
   isMounted: RefObject<boolean>,
+  delayCount: number,
   index = 0,
   sortedIndexes: number[] = []
 ): Promise<number[]> => {
   if (!isMounted.current || arr.length === 0) return arr //выходим при размонтировании
   // выход по окончанию
   if (index === arr.length - 1) {
-    updateModIndexes(Array.from(arr.keys()))
+    setModIndexes(Array.from(arr.keys()))
     return arr
   }
 
-  isPending(true)
+  setIsPending(true)
   let minIndex = index
 
   for (let i = index + 1; i < arr.length; i++) {
@@ -32,9 +32,9 @@ export const selectionSort = async (
       minIndex = i
       // проверка, чтобы избежать лишних обновлений стейта
       if (!sortedIndexes.includes(i)) {
-        updateDynamicIndexes([i, i + 1])
+        setDynamicIndexes([i, index])
       }
-      await delay(SHORT_DELAY_IN_MS)
+      await delay(delayCount)
     }
   }
 
@@ -43,19 +43,20 @@ export const selectionSort = async (
   if (minIndex !== index) {
     swap(arr, index, minIndex)
     sortedIndexes.push(index)
-    updateModIndexes([...sortedIndexes])
+    setModIndexes([...sortedIndexes])
   }
 
-  updateDynamicIndexes([])
-  isPending(false)
+  setDynamicIndexes([])
+  setIsPending(false)
   return selectionSort(
     arr,
     direction,
-    updateDynamicIndexes,
-    updateModIndexes,
-    isPending,
+    setDynamicIndexes,
+    setModIndexes,
+    setIsPending,
     isMounted,
     index + 1,
+    delayCount,
     sortedIndexes
   )
 }
