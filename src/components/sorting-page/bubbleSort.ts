@@ -1,25 +1,25 @@
 import { RefObject } from "react"
-import { SHORT_DELAY_IN_MS } from "../../constants/delays"
 import { Direction } from "../../types/direction"
 import { delay, swap } from "../../utils/functions"
 
 type SetDynamicIndexes = (indexes: number[]) => void
 type SetModIndexes = (indexes: number[]) => void
-type SetIsPending = (val: boolean) => void
+type SetsetIsPending = (val: boolean) => void
 
 export const bubbleSort = async (
   arr: number[],
   direction: Direction,
   setDynamicIndexes: SetDynamicIndexes,
   setModIndexes: SetModIndexes,
-  isPending: SetIsPending,
+  setIsPending: SetsetIsPending,
   isMounted: RefObject<boolean>,
+  delayCount: number
 ) => {
   if (arr.length === 0) {
     return arr
   }
 
-  isPending(true)
+  setIsPending(true)
   let swapped
 
   const sortedIndexes: number[] = []
@@ -33,7 +33,7 @@ export const bubbleSort = async (
         if (!sortedIndexes.includes(i)) {
           setDynamicIndexes([i, i + 1])
         }
-        await delay(SHORT_DELAY_IN_MS)
+        await delay(delayCount)
 
         swap(arr, i, i + 1)
         swapped = true
@@ -48,6 +48,6 @@ export const bubbleSort = async (
 
   setModIndexes(Array.from(arr.keys()))
   setDynamicIndexes([])
-  isPending(false)
+  setIsPending(false)
   return arr
 }

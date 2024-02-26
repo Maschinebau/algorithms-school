@@ -58,6 +58,7 @@ export const FibonacciPage = () => {
             onChange={handleChange}
             value={values.inputValue}
             name="inputValue"
+            data-testid="inputValue"
           />
           <Button text="Рассчитать" disabled={!formChanged} type="submit" isLoader={isPending} />
         </form>
