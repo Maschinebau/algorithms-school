@@ -1,9 +1,11 @@
 /// <reference types="cypress" />
 
+import { HOMEPAGE_URL } from "../../src/constants/tests"
+
 describe("service is available", function () {
   it("should be available on localhost:3000", function () {
     cy.viewport(1920, 1080)
-    cy.visit("http://localhost:3000")
+    cy.visit(HOMEPAGE_URL)
     cy.contains("МБОУ АЛГОСОШ")
   })
 })
@@ -11,7 +13,7 @@ describe("service is available", function () {
 describe("app works correctly with routes", function () {
   beforeEach(function () {
     cy.viewport(1920, 1080)
-    cy.visit("http://localhost:3000")
+    cy.visit(HOMEPAGE_URL)
   })
 
   it("string page opened", () => {

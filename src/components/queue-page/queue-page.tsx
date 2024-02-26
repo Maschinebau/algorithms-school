@@ -90,6 +90,7 @@ export const QueuePage = () => {
             onChange={handleChange}
             value={values.inputValue}
             name="inputValue"
+            data-testid="inputValue"
           />
           <Button text="Добавить" disabled={!formChanged} type="submit" isLoader={isPending} />
           <Button text="Удалить" disabled={length === 0} type="button" onClick={dequeue} />

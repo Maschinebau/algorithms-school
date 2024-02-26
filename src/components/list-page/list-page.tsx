@@ -283,6 +283,7 @@ export const ListPage = () => {
               disabled={false}
               name="string"
               placeholder={"Введите значение"}
+              data-testid="stringInput"
             />
             <Input
               extraClass={styles.input}
@@ -294,6 +295,7 @@ export const ListPage = () => {
               isLimitText={true}
               max={printedArr.length - 1}
               placeholder={"Введите индекс"}
+              data-testid="numberInput"
             />
           </div>
           <div className={styles.btns_box}>
@@ -304,6 +306,7 @@ export const ListPage = () => {
               isLoader={pending.addHeadPdg}
               onClick={addHead}
               disabled={btnStates.addHeadBtnDisabled}
+              data-testid="addHead"
             />
             <Button
               text="Добавить в tail"
@@ -312,6 +315,7 @@ export const ListPage = () => {
               isLoader={pending.addTailPdg}
               onClick={AddTail}
               disabled={btnStates.addTailBtnDisabled}
+              data-testid="addTail"
             />
             <Button
               text="Добавить по индексу"
@@ -320,6 +324,7 @@ export const ListPage = () => {
               isLoader={pending.addIdxPdg}
               onClick={addWithIndex}
               disabled={btnStates.addIdxBtnDisabled}
+              data-testid="addWithIndex"
             />
           </div>
           <div className={styles.btns_box}>
@@ -330,6 +335,7 @@ export const ListPage = () => {
               isLoader={pending.delHeadPdg}
               onClick={onDelHead}
               disabled={btnStates.delHeadBtnDisabled}
+              data-testid="delHead"
             />
             <Button
               text="Удалить из tail"
@@ -338,6 +344,7 @@ export const ListPage = () => {
               isLoader={pending.delTailPdg}
               onClick={onDelTail}
               disabled={btnStates.delTailBtnDisabled}
+              data-testid="delTail"
             />
             <Button
               text="Удалить по индексу"
@@ -346,6 +353,7 @@ export const ListPage = () => {
               isLoader={pending.delIdxPdg}
               onClick={deleteWithIndex}
               disabled={btnStates.delIdxBtnDisabled}
+              data-testid="delWithIndex"
             />
           </div>
         </form>

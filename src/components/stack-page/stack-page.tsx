@@ -78,15 +78,16 @@ export const StackPage = () => {
             onChange={handleChange}
             value={values.inputValue}
             name="inputValue"
+            data-testid="inputValue"
           />
-          <Button text="Добавить" disabled={!formChanged} type="submit" isLoader={isPending} />
+          <Button text="Добавить" disabled={!formChanged} type="submit" isLoader={isPending}/>
           <Button text="Удалить" disabled={printedVals.length <= 0} type="button" onClick={deleteTop} />
           <Button text="Очистить" disabled={printedVals.length <= 0}  type="reset" onClick={clearStack} />
         </form>
         <ul>
           {printedVals.length > 0 &&
             printedVals.map((item, idx) => (
-              <Circle letter={item} key={idx} index={idx} head={getTall(idx)} state={circleState(idx)} />
+              <Circle letter={item} key={idx} index={idx} head={getTall(idx)} state={circleState(idx)} data-testid={`circle`}/>
             ))}
         </ul>
       </div>

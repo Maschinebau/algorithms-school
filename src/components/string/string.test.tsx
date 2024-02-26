@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react"
-import { StringComponent } from "./string"
 import { BrowserRouter } from "react-router-dom"
 import { reverseString } from "./reverseString"
+import { StringComponent } from "./string"
 
 const setDynamicIndexes = jest.fn()
 const setRevInputVal = jest.fn()
@@ -27,7 +27,9 @@ describe("StringComponent", () => {
     )
     const inputField = screen.getByRole("textbox")
     const button = screen.getByRole("button", { name: /Развернуть/i })
+    //@ts-ignore
     expect(inputField).toBeInTheDocument()
+    //@ts-ignore
     expect(button).toBeInTheDocument()
   })
 
@@ -47,7 +49,7 @@ describe("StringComponent", () => {
   })
 
   it("reverse even string correctly", async () => {
-    const inputArr = "hellow".split("")
+    const inputArr = "hello".split("")
     const expectedArr = inputArr.reverse()
     await reverseString(
       inputArr,
@@ -62,8 +64,8 @@ describe("StringComponent", () => {
   })
 
   it("reverse with one symbol correctly", async () => {
-    const inputArr = "h"
-    const expectedArr = "h"
+    const inputArr = ["h"]
+    const expectedArr = ["h"]
     await reverseString(
       inputArr,
       delay,
@@ -77,7 +79,7 @@ describe("StringComponent", () => {
   })
 
   it("reverse empty array correctly", async () => {
-    const inputArr = []
+    const inputArr: [] = []
     await reverseString(
       inputArr,
       delay,

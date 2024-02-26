@@ -72,7 +72,7 @@ export const StringComponent = () => {
         </form>
         <ul>
           {revInputVal.length > 0 &&
-            revInputVal.map((item, idx) => <Circle letter={item} key={idx} state={circleState(idx)} data-testid={`circle-letter-${idx}`} />)}
+            revInputVal.map((item, idx) => <Circle letter={item} key={idx} state={circleState(idx)} data-testid={`circle-letter`} />)}
         </ul>
       </div>
     </SolutionLayout>
